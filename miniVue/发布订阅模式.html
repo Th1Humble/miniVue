@@ -1,0 +1,43 @@
+<script>
+    // 数据响应式
+    // 数据模型仅仅是普通的js对象，而当我们修改数据时，视图会进行更新，避免了繁琐的DOM操作，提高开发兄阿拉伯
+    // 双向绑定
+    // 数据改变,视图改变,视图改变,数据也跟着改变
+    // 我们可以利用v-model在表单元素上创建双向绑定
+    // 数据驱动是vue最独特的特性之一
+    // 开发过程中仅需要关注数据本身,不需要关心数据是如何渲染到视图
+
+    // 发布订阅模式
+    // 发布/订阅模式由统一调度中心调用,因此发布者和订阅者不需要知道对方的存在
+    // 事件触发器
+    class Eventmitter {
+        constructor() {
+                // {'click':[fn1,fn2],'change':[fn]}
+                this.subs = Object.create(null)
+            }
+            // 注册事件
+        $on(eventType, handler) {
+                this.subs[eventType] = this.subs[eventType] || []
+                this.subs[eventType].push(handler)
+
+            }
+            // 触发事件
+        $emit(eventType) {
+            if (this.subs[eventType]) {
+                this.subs[eventType].forEach(handler => {
+                    handler()
+                });
+            }
+        }
+    }
+
+    // 测试
+    let em = new Eventmitter()
+    em.$on('click', () => {
+        console.log('click1')
+    })
+    em.$on('click', () => {
+        console.log('click2')
+    })
+    em.$emit('click')
+</script>
